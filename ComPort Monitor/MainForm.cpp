@@ -16,6 +16,8 @@ com_port_monitor::MainForm::~MainForm()
 	{
 		delete this->components;
 	}
+	if (this->th)
+		this->th->Abort();
 }
 
 //
@@ -23,7 +25,7 @@ com_port_monitor::MainForm::~MainForm()
 //
 System::Void com_port_monitor::MainForm::buttonSendCommand_Click(System::Object^ sender, System::EventArgs^ e)
 {
-	this->SendDataToPort();
+	this->sendDataToPort();
 }
 
 // KEY DOWN (FORM)
@@ -37,35 +39,39 @@ System::Void com_port_monitor::MainForm::textBoxWriteCommand_KeyDown(System::Obj
 {
 	if (e->KeyCode == Keys::Enter)
 	{
-		this->SendDataToPort();
+		this->sendDataToPort();
 	}
 }
 
 
-//
-// CONNECT TO COM PORT (BUTTON)
-//
-System::Void com_port_monitor::MainForm::buttonConnectToComPort_Click(System::Object^ sender, System::EventArgs^ e)
+
+void com_port_monitor::MainForm::updateComPorts()
 {
-	// TODO: CONNECT TO COM PORT
-	return System::Void();
+	this->comboBoxComPorts->Items->Clear();
+	this->comboBoxComPorts->ResetText();
+	for (int i = 1; i <= 256; i++)
+	{
+		if(check_com_port(i) != -1)
+			this->comboBoxComPorts->Items->Add("COM" + i);
+	}
+
 }
 
 //
 // SEND DATA TO COM PORT
 //
-void com_port_monitor::MainForm::SendDataToPort()
+void com_port_monitor::MainForm::sendDataToPort()
 {
-	this->timer1->Start();
 	MessageBox::Show("TEST", "TEST");
 }
-
 
 //
 // Exit
 //
 System::Void com_port_monitor::MainForm::exitToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e)
 {
+	if (this->th)
+		this->th->Abort();
 	Application::Exit();
 }
 
@@ -74,7 +80,6 @@ System::Void com_port_monitor::MainForm::exitToolStripMenuItem_Click(System::Obj
 //
 System::Void com_port_monitor::MainForm::saveLogsToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e)
 {
-	this->timer1->Stop();
 	this->saveFileDialog->ShowDialog();
 	String^ fileName = this->saveFileDialog->FileName;
 	if (fileName != "")
@@ -83,7 +88,6 @@ System::Void com_port_monitor::MainForm::saveLogsToolStripMenuItem_Click(System:
 		sw->WriteLine(this->textBoxConsole->Text);
 		sw->Close();
 	}
-	this->timer1->Start();
 }
 
 //
@@ -134,21 +138,121 @@ System::Void com_port_monitor::MainForm::settingsToolStripMenuItem_Click(System:
 System::Void com_port_monitor::MainForm::MainForm_Load(System::Object^ sender, System::EventArgs^ e)
 {
 	this->textBoxWriteCommand->Select();
+	this->updateComPorts();
 }
 
+//
+// FORM WITH CHART
+//
 System::Void com_port_monitor::MainForm::chartToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e)
 {
 	return System::Void();
 }
 
-System::Void com_port_monitor::MainForm::timer1_Tick(System::Object^ sender, System::EventArgs^ e)
+//
+// CONNECT TO COM PORT (BUTTON)
+//
+System::Void com_port_monitor::MainForm::buttonConnectToComPort_Click(System::Object^ sender, System::EventArgs^ e)
 {
-	this->textBoxConsole->Text += "[" + dateTime.Now + "] INFO:\t" + info++ + Environment::NewLine;
-	this->textBoxConsole->SelectionStart = this->textBoxConsole->Text->Length;
-	this->textBoxConsole->ScrollToCaret();
+	if (this->buttonConnectToComPort->Text == "Подключиться")
+	{
+		if (this->connectToPort())
+		{
+			this->buttonConnectToComPort->Text = "Отключится";
+			this->connectToolStripMenuItem->Text = "Отключится";
+		}
+	}
+	else
+	{
+		this->disconnectPortCom();
+		this->buttonConnectToComPort->Text = "Подключиться";
+		this->connectToolStripMenuItem->Text = "Подключиться";
+	}
+}
+System::Void com_port_monitor::MainForm::connectToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e)
+{
+	if (this->connectToolStripMenuItem->Text == "Подключиться")
+	{
+		if (this->connectToPort())
+		{
+			this->buttonConnectToComPort->Text = "Отключится";
+			this->connectToolStripMenuItem->Text = "Отключится";
+		}
+	}
+	else
+	{
+		this->disconnectPortCom();
+		this->buttonConnectToComPort->Text = "Подключиться";
+		this->connectToolStripMenuItem->Text = "Подключиться";
+	}
 }
 
+System::Void com_port_monitor::MainForm::buttonClearConsole_Click(System::Object^ sender, System::EventArgs^ e)
+{
+	this->textBoxConsole->Text = "";
+}
 
+bool com_port_monitor::MainForm::connectToPort()
+{
+	
+	this->hPortCom = open_com_port(this->hPortCom, (char*)(void*)System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(this->comboBoxComPorts->Text));
+	if (this->hPortCom != INVALID_HANDLE_VALUE)
+	{
+		this->textBoxConsole->Text += "[" + this->dateTime.Now + "] INFO:\tConnect" + Environment::NewLine;
+		this->textBoxConsole->SelectionStart = this->textBoxConsole->Text->Length;
+		this->textBoxConsole->ScrollToCaret();
+		this->isConnectedToComPort = true;
+		this->th = gcnew System::Threading::Thread(gcnew System::Threading::ParameterizedThreadStart(this, &MainForm::readComPort));
+		this->th->Start();
+		return true;
+	}
+	return false;
+}
+
+void com_port_monitor::MainForm::disconnectPortCom()
+{
+	CloseHandle(this->hPortCom);
+	this->textBoxConsole->Text += "[" + this->dateTime.Now + "] INFO:\tDisconnect" + Environment::NewLine;
+	this->textBoxConsole->SelectionStart = this->textBoxConsole->Text->Length;
+	this->textBoxConsole->ScrollToCaret();
+	this->isConnectedToComPort = false;
+	this->th->Abort();
+	this->hPortCom = nullptr;
+}
+
+void com_port_monitor::MainForm::readComPort(Object^ p)
+{
+	while (true)
+	{
+		if (this->isConnectedToComPort)
+		{
+			char* buf = const_cast<char*>(read_from_com_port(this->hPortCom));
+			if (buf != NULL)
+			{
+				String^ str = gcnew String(buf);
+				if (!str->EndsWith("\n"))
+					this->textBoxConsole->Text += "[" + this->dateTime.Now + "] INFO:\t" + str + Environment::NewLine;
+				else if (str->EndsWith("\n"))
+					this->textBoxConsole->Text += "[" + this->dateTime.Now + "] INFO:\t" + str;
+				this->textBoxConsole->SelectionStart = this->textBoxConsole->Text->Length;
+				this->textBoxConsole->ScrollToCaret();
+			}
+			free(buf);
+		}
+	}
+}
+
+System::Void com_port_monitor::MainForm::MainForm_FormClosed(System::Object^ sender, System::Windows::Forms::FormClosedEventArgs^ e)
+{
+	if (this->th)
+		this->th->Abort();
+	Application::Exit();
+}
+
+System::Void com_port_monitor::MainForm::buttonUpdateComPorts_Click(System::Object^ sender, System::EventArgs^ e)
+{
+	this->updateComPorts();
+}
 
 
 

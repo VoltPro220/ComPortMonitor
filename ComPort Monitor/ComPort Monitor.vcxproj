@@ -138,6 +138,7 @@
   <ItemGroup>
     <ClCompile Include="MainForm.cpp" />
     <ClCompile Include="SettingsForm.cpp" />
+    <ClCompile Include="src\SerialOperation\stducp.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainForm.h">
@@ -147,6 +148,7 @@
     <ClInclude Include="SettingsForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="src\SerialOperation\stducp.h" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MainForm.resx">
