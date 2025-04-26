@@ -46,7 +46,12 @@ namespace com_port_monitor
 		System::Windows::Forms::ToolStripMenuItem^ gitHubToolStripMenuItem;
 		System::Windows::Forms::ToolStripMenuItem^ documentationToolStripMenuItem;
 		System::Windows::Forms::Label^ label2;
-		System::Windows::Forms::ComboBox^ comboBox1;
+		System::Windows::Forms::ComboBox^ comboBoxBaudRate;
+		System::Windows::Forms::ToolStripMenuItem^ updateToolStripMenuItem;
+		System::Windows::Forms::ToolStripMenuItem^ baud2400toolStripMenuItem;
+		System::Windows::Forms::ToolStripMenuItem^ baud9600toolStripMenuItem3;
+		System::Windows::Forms::ToolStripMenuItem^ baud115200toolStripMenuItem4;
+		System::Windows::Forms::ToolStripMenuItem^ baud57600toolStripMenuItem5;
 		System::Windows::Forms::ToolStripMenuItem^ chartToolStripMenuItem;
 		System::Windows::Forms::ToolStripMenuItem^ connectToolStripMenuItem;
 		System::Windows::Forms::Button^ buttonUpdateComPorts;
@@ -56,6 +61,8 @@ namespace com_port_monitor
 		DateTime dateTime;
 		HANDLE hPortCom;
 		bool isConnectedToComPort = false;
+		int baudRate = 9600;
+		String^ comPort;
 		System::Threading::Thread^ th;
 
 #pragma region Windows Form Designer generated code
@@ -70,18 +77,24 @@ namespace com_port_monitor
 			this->exitToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->toolsToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->connectToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->updateToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->chooseComToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->chartToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->baudToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->baud2400toolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->baud9600toolStripMenuItem3 = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->baud115200toolStripMenuItem4 = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->baud57600toolStripMenuItem5 = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->chartToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->aboutProgramToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->gitHubToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->documentationToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->aboutToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->splitContainer1 = (gcnew System::Windows::Forms::SplitContainer());
 			this->splitContainer2 = (gcnew System::Windows::Forms::SplitContainer());
+			this->buttonUpdateComPorts = (gcnew System::Windows::Forms::Button());
 			this->buttonClearConsole = (gcnew System::Windows::Forms::Button());
 			this->label2 = (gcnew System::Windows::Forms::Label());
-			this->comboBox1 = (gcnew System::Windows::Forms::ComboBox());
+			this->comboBoxBaudRate = (gcnew System::Windows::Forms::ComboBox());
 			this->buttonConnectToComPort = (gcnew System::Windows::Forms::Button());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->comboBoxComPorts = (gcnew System::Windows::Forms::ComboBox());
@@ -91,7 +104,6 @@ namespace com_port_monitor
 			this->saveFileDialog = (gcnew System::Windows::Forms::SaveFileDialog());
 			this->printDialog = (gcnew System::Windows::Forms::PrintDialog());
 			this->printDocument = (gcnew System::Drawing::Printing::PrintDocument());
-			this->buttonUpdateComPorts = (gcnew System::Windows::Forms::Button());
 			this->menuStrip1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->splitContainer1))->BeginInit();
 			this->splitContainer1->Panel1->SuspendLayout();
@@ -149,10 +161,10 @@ namespace com_port_monitor
 			// 
 			// toolsToolStripMenuItem
 			// 
-			this->toolsToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(4)
+			this->toolsToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(5)
 			{
 				this->connectToolStripMenuItem,
-					this->chooseComToolStripMenuItem, this->chartToolStripMenuItem, this->baudToolStripMenuItem
+					this->updateToolStripMenuItem, this->chooseComToolStripMenuItem, this->baudToolStripMenuItem, this->chartToolStripMenuItem
 			});
 			this->toolsToolStripMenuItem->Name = L"toolsToolStripMenuItem";
 			resources->ApplyResources(this->toolsToolStripMenuItem, L"toolsToolStripMenuItem");
@@ -163,21 +175,56 @@ namespace com_port_monitor
 			resources->ApplyResources(this->connectToolStripMenuItem, L"connectToolStripMenuItem");
 			this->connectToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainForm::connectToolStripMenuItem_Click);
 			// 
+			// updateToolStripMenuItem
+			// 
+			this->updateToolStripMenuItem->Name = L"updateToolStripMenuItem";
+			resources->ApplyResources(this->updateToolStripMenuItem, L"updateToolStripMenuItem");
+			this->updateToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainForm::updateToolStripMenuItem_Click);
+			// 
 			// chooseComToolStripMenuItem
 			// 
 			this->chooseComToolStripMenuItem->Name = L"chooseComToolStripMenuItem";
 			resources->ApplyResources(this->chooseComToolStripMenuItem, L"chooseComToolStripMenuItem");
+			// 
+			// baudToolStripMenuItem
+			// 
+			this->baudToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(4)
+			{
+				this->baud2400toolStripMenuItem,
+					this->baud9600toolStripMenuItem3, this->baud115200toolStripMenuItem4, this->baud57600toolStripMenuItem5
+			});
+			this->baudToolStripMenuItem->Name = L"baudToolStripMenuItem";
+			resources->ApplyResources(this->baudToolStripMenuItem, L"baudToolStripMenuItem");
+			// 
+			// baud2400toolStripMenuItem
+			// 
+			this->baud2400toolStripMenuItem->Name = L"baud2400toolStripMenuItem";
+			resources->ApplyResources(this->baud2400toolStripMenuItem, L"baud2400toolStripMenuItem");
+			this->baud2400toolStripMenuItem->Click += gcnew System::EventHandler(this, &MainForm::setBaudRate);
+			// 
+			// baud9600toolStripMenuItem3
+			// 
+			this->baud9600toolStripMenuItem3->Name = L"baud9600toolStripMenuItem3";
+			resources->ApplyResources(this->baud9600toolStripMenuItem3, L"baud9600toolStripMenuItem3");
+			this->baud9600toolStripMenuItem3->Click += gcnew System::EventHandler(this, &MainForm::setBaudRate);
+			// 
+			// baud115200toolStripMenuItem4
+			// 
+			this->baud115200toolStripMenuItem4->Name = L"baud115200toolStripMenuItem4";
+			resources->ApplyResources(this->baud115200toolStripMenuItem4, L"baud115200toolStripMenuItem4");
+			this->baud115200toolStripMenuItem4->Click += gcnew System::EventHandler(this, &MainForm::setBaudRate);
+			// 
+			// baud57600toolStripMenuItem5
+			// 
+			this->baud57600toolStripMenuItem5->Name = L"baud57600toolStripMenuItem5";
+			resources->ApplyResources(this->baud57600toolStripMenuItem5, L"baud57600toolStripMenuItem5");
+			this->baud57600toolStripMenuItem5->Click += gcnew System::EventHandler(this, &MainForm::setBaudRate);
 			// 
 			// chartToolStripMenuItem
 			// 
 			this->chartToolStripMenuItem->Name = L"chartToolStripMenuItem";
 			resources->ApplyResources(this->chartToolStripMenuItem, L"chartToolStripMenuItem");
 			this->chartToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainForm::chartToolStripMenuItem_Click);
-			// 
-			// baudToolStripMenuItem
-			// 
-			this->baudToolStripMenuItem->Name = L"baudToolStripMenuItem";
-			resources->ApplyResources(this->baudToolStripMenuItem, L"baudToolStripMenuItem");
 			// 
 			// aboutProgramToolStripMenuItem
 			// 
@@ -235,7 +282,7 @@ namespace com_port_monitor
 			this->splitContainer2->Panel1->Controls->Add(this->buttonUpdateComPorts);
 			this->splitContainer2->Panel1->Controls->Add(this->buttonClearConsole);
 			this->splitContainer2->Panel1->Controls->Add(this->label2);
-			this->splitContainer2->Panel1->Controls->Add(this->comboBox1);
+			this->splitContainer2->Panel1->Controls->Add(this->comboBoxBaudRate);
 			this->splitContainer2->Panel1->Controls->Add(this->buttonConnectToComPort);
 			this->splitContainer2->Panel1->Controls->Add(this->label1);
 			this->splitContainer2->Panel1->Controls->Add(this->comboBoxComPorts);
@@ -243,6 +290,14 @@ namespace com_port_monitor
 			// splitContainer2.Panel2
 			// 
 			this->splitContainer2->Panel2->Controls->Add(this->textBoxConsole);
+			// 
+			// buttonUpdateComPorts
+			// 
+			resources->ApplyResources(this->buttonUpdateComPorts, L"buttonUpdateComPorts");
+			this->buttonUpdateComPorts->Cursor = System::Windows::Forms::Cursors::Hand;
+			this->buttonUpdateComPorts->Name = L"buttonUpdateComPorts";
+			this->buttonUpdateComPorts->UseVisualStyleBackColor = true;
+			this->buttonUpdateComPorts->Click += gcnew System::EventHandler(this, &MainForm::buttonUpdateComPorts_Click);
 			// 
 			// buttonClearConsole
 			// 
@@ -257,11 +312,21 @@ namespace com_port_monitor
 			resources->ApplyResources(this->label2, L"label2");
 			this->label2->Name = L"label2";
 			// 
-			// comboBox1
+			// comboBoxBaudRate
 			// 
-			this->comboBox1->FormattingEnabled = true;
-			resources->ApplyResources(this->comboBox1, L"comboBox1");
-			this->comboBox1->Name = L"comboBox1";
+			this->comboBoxBaudRate->FormattingEnabled = true;
+			this->comboBoxBaudRate->Items->AddRange(gcnew cli::array< System::Object^  >(14)
+			{
+				resources->GetString(L"comboBoxBaudRate.Items"),
+					resources->GetString(L"comboBoxBaudRate.Items1"), resources->GetString(L"comboBoxBaudRate.Items2"), resources->GetString(L"comboBoxBaudRate.Items3"),
+					resources->GetString(L"comboBoxBaudRate.Items4"), resources->GetString(L"comboBoxBaudRate.Items5"), resources->GetString(L"comboBoxBaudRate.Items6"),
+					resources->GetString(L"comboBoxBaudRate.Items7"), resources->GetString(L"comboBoxBaudRate.Items8"), resources->GetString(L"comboBoxBaudRate.Items9"),
+					resources->GetString(L"comboBoxBaudRate.Items10"), resources->GetString(L"comboBoxBaudRate.Items11"), resources->GetString(L"comboBoxBaudRate.Items12"),
+					resources->GetString(L"comboBoxBaudRate.Items13")
+			});
+			resources->ApplyResources(this->comboBoxBaudRate, L"comboBoxBaudRate");
+			this->comboBoxBaudRate->Name = L"comboBoxBaudRate";
+			this->comboBoxBaudRate->SelectedIndexChanged += gcnew System::EventHandler(this, &MainForm::setBaudRateComboBox);
 			// 
 			// buttonConnectToComPort
 			// 
@@ -281,6 +346,7 @@ namespace com_port_monitor
 			this->comboBoxComPorts->FormattingEnabled = true;
 			resources->ApplyResources(this->comboBoxComPorts, L"comboBoxComPorts");
 			this->comboBoxComPorts->Name = L"comboBoxComPorts";
+			this->comboBoxComPorts->SelectedIndexChanged += gcnew System::EventHandler(this, &MainForm::chooseComPortComboBox);
 			// 
 			// textBoxConsole
 			// 
@@ -312,14 +378,6 @@ namespace com_port_monitor
 			// printDocument
 			// 
 			this->printDocument->PrintPage += gcnew System::Drawing::Printing::PrintPageEventHandler(this, &MainForm::printDocument_PrintPage);
-			// 
-			// buttonUpdateComPorts
-			// 
-			resources->ApplyResources(this->buttonUpdateComPorts, L"buttonUpdateComPorts");
-			this->buttonUpdateComPorts->Cursor = System::Windows::Forms::Cursors::Hand;
-			this->buttonUpdateComPorts->Name = L"buttonUpdateComPorts";
-			this->buttonUpdateComPorts->UseVisualStyleBackColor = true;
-			this->buttonUpdateComPorts->Click += gcnew System::EventHandler(this, &MainForm::buttonUpdateComPorts_Click);
 			// 
 			// MainForm
 			// 
@@ -370,10 +428,17 @@ namespace com_port_monitor
 		System::Void buttonClearConsole_Click(System::Object^ sender, System::EventArgs^ e);
 		System::Void MainForm_FormClosed(System::Object^ sender, System::Windows::Forms::FormClosedEventArgs^ e);
 		System::Void buttonUpdateComPorts_Click(System::Object^ sender, System::EventArgs^ e);
+		System::Void updateToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e);
+		void setBaudRate(System::Object^, System::EventArgs^);
+		void setBaudRateComboBox(System::Object^, System::EventArgs^);
+		void chooseComPort(System::Object^, System::EventArgs^);
+		void chooseComPortComboBox(System::Object^, System::EventArgs^);
 		void updateComPorts();
 		void sendDataToPort();
 		bool connectToPort();
 		void disconnectPortCom();
 		void readComPort(Object^);
+
+
 	};
 }

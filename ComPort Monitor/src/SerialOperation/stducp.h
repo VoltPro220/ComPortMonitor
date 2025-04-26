@@ -8,7 +8,6 @@
 
 constexpr int BUFFER_SIZE = 256;
 
-#define BAUDRATE CBR_9600
 #define STOPBITS ONESTOPBIT
 #define PARITY NOPARITY
 
@@ -29,10 +28,7 @@ constexpr int WRITETOTALTIMEOUTMULTIPLIER = 50;
 #define EXTERN extern
 #endif
 
-
-static BOOLEAN isConnected = FALSE;
-
-EXTERN HANDLE open_com_port(HANDLE, const char*);
+EXTERN HANDLE open_com_port(HANDLE, const char*, int);
 
 EXTERN void close_com_port(HANDLE*);
 

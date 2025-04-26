@@ -176,11 +176,50 @@
   <data name="connectToolStripMenuItem.Text" xml:space="preserve">
     <value>Подключиться</value>
   </data>
+  <data name="updateToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>CTRL+U</value>
+  </data>
+  <data name="updateToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>207, 22</value>
+  </data>
+  <data name="updateToolStripMenuItem.Text" xml:space="preserve">
+    <value>Обновить</value>
+  </data>
   <data name="chooseComToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>207, 22</value>
   </data>
   <data name="chooseComToolStripMenuItem.Text" xml:space="preserve">
     <value>COM</value>
+  </data>
+  <data name="baud2400toolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>110, 22</value>
+  </data>
+  <data name="baud2400toolStripMenuItem.Text" xml:space="preserve">
+    <value>2400</value>
+  </data>
+  <data name="baud9600toolStripMenuItem3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>110, 22</value>
+  </data>
+  <data name="baud9600toolStripMenuItem3.Text" xml:space="preserve">
+    <value>9600</value>
+  </data>
+  <data name="baud115200toolStripMenuItem4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>110, 22</value>
+  </data>
+  <data name="baud115200toolStripMenuItem4.Text" xml:space="preserve">
+    <value>115200</value>
+  </data>
+  <data name="baud57600toolStripMenuItem5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>110, 22</value>
+  </data>
+  <data name="baud57600toolStripMenuItem5.Text" xml:space="preserve">
+    <value>57600 </value>
+  </data>
+  <data name="baudToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>207, 22</value>
+  </data>
+  <data name="baudToolStripMenuItem.Text" xml:space="preserve">
+    <value>Бод</value>
   </data>
   <data name="chartToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>207, 22</value>
@@ -188,11 +227,9 @@
   <data name="chartToolStripMenuItem.Text" xml:space="preserve">
     <value>График</value>
   </data>
-  <data name="baudToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>207, 22</value>
-  </data>
-  <data name="baudToolStripMenuItem.Text" xml:space="preserve">
-    <value>Бод</value>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="chartToolStripMenuItem.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="toolsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>95, 20</value>
@@ -231,9 +268,8 @@
     <value>0, 0</value>
   </data>
   <data name="menuStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1022, 24</value>
+    <value>859, 24</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="menuStrip1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
@@ -286,7 +322,7 @@
     <value>NoControl</value>
   </data>
   <data name="buttonUpdateComPorts.Location" type="System.Drawing.Point, System.Drawing">
-    <value>673, 10</value>
+    <value>510, 10</value>
   </data>
   <data name="buttonUpdateComPorts.Size" type="System.Drawing.Size, System.Drawing">
     <value>93, 29</value>
@@ -319,7 +355,7 @@
     <value>NoControl</value>
   </data>
   <data name="buttonClearConsole.Location" type="System.Drawing.Point, System.Drawing">
-    <value>772, 10</value>
+    <value>609, 10</value>
   </data>
   <data name="buttonClearConsole.Size" type="System.Drawing.Size, System.Drawing">
     <value>93, 29</value>
@@ -355,13 +391,13 @@
     <value>155, 14</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>55, 20</value>
+    <value>43, 20</value>
   </data>
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>Боды</value>
+    <value>Бод</value>
   </data>
   <data name="&gt;&gt;label2.Name" xml:space="preserve">
     <value>label2</value>
@@ -375,25 +411,70 @@
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="comboBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>216, 14</value>
+  <data name="comboBoxBaudRate.Items" xml:space="preserve">
+    <value>300</value>
   </data>
-  <data name="comboBox1.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="comboBoxBaudRate.Items1" xml:space="preserve">
+    <value>600</value>
+  </data>
+  <data name="comboBoxBaudRate.Items2" xml:space="preserve">
+    <value>750</value>
+  </data>
+  <data name="comboBoxBaudRate.Items3" xml:space="preserve">
+    <value>1200</value>
+  </data>
+  <data name="comboBoxBaudRate.Items4" xml:space="preserve">
+    <value>2400</value>
+  </data>
+  <data name="comboBoxBaudRate.Items5" xml:space="preserve">
+    <value>4800</value>
+  </data>
+  <data name="comboBoxBaudRate.Items6" xml:space="preserve">
+    <value>9600</value>
+  </data>
+  <data name="comboBoxBaudRate.Items7" xml:space="preserve">
+    <value>19200</value>
+  </data>
+  <data name="comboBoxBaudRate.Items8" xml:space="preserve">
+    <value>31250</value>
+  </data>
+  <data name="comboBoxBaudRate.Items9" xml:space="preserve">
+    <value>38400</value>
+  </data>
+  <data name="comboBoxBaudRate.Items10" xml:space="preserve">
+    <value>57600</value>
+  </data>
+  <data name="comboBoxBaudRate.Items11" xml:space="preserve">
+    <value>74880</value>
+  </data>
+  <data name="comboBoxBaudRate.Items12" xml:space="preserve">
+    <value>115200</value>
+  </data>
+  <data name="comboBoxBaudRate.Items13" xml:space="preserve">
+    <value>250000</value>
+  </data>
+  <data name="comboBoxBaudRate.Location" type="System.Drawing.Point, System.Drawing">
+    <value>204, 13</value>
+  </data>
+  <data name="comboBoxBaudRate.Size" type="System.Drawing.Size, System.Drawing">
     <value>77, 21</value>
   </data>
-  <data name="comboBox1.TabIndex" type="System.Int32, mscorlib">
+  <data name="comboBoxBaudRate.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
-  <data name="&gt;&gt;comboBox1.Name" xml:space="preserve">
-    <value>comboBox1</value>
+  <data name="comboBoxBaudRate.Text" xml:space="preserve">
+    <value>9600</value>
   </data>
-  <data name="&gt;&gt;comboBox1.Type" xml:space="preserve">
+  <data name="&gt;&gt;comboBoxBaudRate.Name" xml:space="preserve">
+    <value>comboBoxBaudRate</value>
+  </data>
+  <data name="&gt;&gt;comboBoxBaudRate.Type" xml:space="preserve">
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;comboBox1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;comboBoxBaudRate.Parent" xml:space="preserve">
     <value>splitContainer2.Panel1</value>
   </data>
-  <data name="&gt;&gt;comboBox1.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;comboBoxBaudRate.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
   <data name="buttonConnectToComPort.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
@@ -406,7 +487,7 @@
     <value>NoControl</value>
   </data>
   <data name="buttonConnectToComPort.Location" type="System.Drawing.Point, System.Drawing">
-    <value>871, 10</value>
+    <value>708, 10</value>
   </data>
   <data name="buttonConnectToComPort.Size" type="System.Drawing.Size, System.Drawing">
     <value>137, 29</value>
@@ -508,7 +589,7 @@
     <value>Both</value>
   </data>
   <data name="textBoxConsole.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1018, 589</value>
+    <value>855, 484</value>
   </data>
   <data name="textBoxConsole.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -541,7 +622,7 @@
     <value>1</value>
   </data>
   <data name="splitContainer2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1022, 648</value>
+    <value>859, 543</value>
   </data>
   <data name="splitContainer2.SplitterDistance" type="System.Int32, mscorlib">
     <value>51</value>
@@ -580,7 +661,7 @@
     <value>Microsoft Sans Serif, 11.25pt, style=Bold</value>
   </data>
   <data name="buttonSendCommand.Location" type="System.Drawing.Point, System.Drawing">
-    <value>889, 10</value>
+    <value>726, 10</value>
   </data>
   <data name="buttonSendCommand.Size" type="System.Drawing.Size, System.Drawing">
     <value>119, 29</value>
@@ -613,7 +694,7 @@
     <value>10, 10</value>
   </data>
   <data name="textBoxWriteCommand.Size" type="System.Drawing.Size, System.Drawing">
-    <value>873, 29</value>
+    <value>710, 29</value>
   </data>
   <data name="textBoxWriteCommand.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -643,10 +724,10 @@
     <value>1</value>
   </data>
   <data name="splitContainer1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1022, 705</value>
+    <value>859, 600</value>
   </data>
   <data name="splitContainer1.SplitterDistance" type="System.Int32, mscorlib">
-    <value>648</value>
+    <value>543</value>
   </data>
   <data name="splitContainer1.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -679,7 +760,7 @@
     <value>6, 13</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>1022, 729</value>
+    <value>859, 624</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -4475,7 +4556,7 @@
 </value>
   </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>468, 319</value>
+    <value>654, 412</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterScreen</value>
@@ -4525,22 +4606,52 @@
   <data name="&gt;&gt;connectToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;updateToolStripMenuItem.Name" xml:space="preserve">
+    <value>updateToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;updateToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;chooseComToolStripMenuItem.Name" xml:space="preserve">
     <value>chooseComToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;chooseComToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;chartToolStripMenuItem.Name" xml:space="preserve">
-    <value>chartToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;chartToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;baudToolStripMenuItem.Name" xml:space="preserve">
     <value>baudToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;baudToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;baud2400toolStripMenuItem.Name" xml:space="preserve">
+    <value>baud2400toolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;baud2400toolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;baud9600toolStripMenuItem3.Name" xml:space="preserve">
+    <value>baud9600toolStripMenuItem3</value>
+  </data>
+  <data name="&gt;&gt;baud9600toolStripMenuItem3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;baud115200toolStripMenuItem4.Name" xml:space="preserve">
+    <value>baud115200toolStripMenuItem4</value>
+  </data>
+  <data name="&gt;&gt;baud115200toolStripMenuItem4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;baud57600toolStripMenuItem5.Name" xml:space="preserve">
+    <value>baud57600toolStripMenuItem5</value>
+  </data>
+  <data name="&gt;&gt;baud57600toolStripMenuItem5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chartToolStripMenuItem.Name" xml:space="preserve">
+    <value>chartToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;chartToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;aboutProgramToolStripMenuItem.Name" xml:space="preserve">

@@ -1,7 +1,7 @@
 #include "stducp.h"
 
 
-HANDLE open_com_port(HANDLE hCom, const char* portName)
+HANDLE open_com_port(HANDLE hCom, const char* portName, int baud)
 {
 	// CreateFile: This Windows API function opens the COM port. 
 	// If it fails, it prints an error message.
@@ -30,7 +30,7 @@ HANDLE open_com_port(HANDLE hCom, const char* portName)
 	}
 
 	// Set parameters (baud rate, byte size, stop bits, parity)
-	dcb.BaudRate = BAUDRATE; // Baud rate
+	dcb.BaudRate = baud; // Baud rate
 	dcb.StopBits = STOPBITS; // One stop bit
 	dcb.Parity = PARITY; // No parity
 	dcb.ByteSize = BYTESIZE; // 8 data bits
@@ -57,15 +57,13 @@ HANDLE open_com_port(HANDLE hCom, const char* portName)
 		CloseHandle(hCom);
 		return INVALID_HANDLE_VALUE;
 	}
-	isConnected = TRUE;
 	// Return the handle to the opened COM port
 	return hCom;
 }
 
 void close_com_port(HANDLE* hCom)
 {
-	if (isConnected)
-		CloseHandle(hCom);
+	CloseHandle(hCom);
 }
 
 int check_com_port(int n)
@@ -91,10 +89,6 @@ int check_com_port(int n)
 
 const char* read_from_com_port(HANDLE hCom)
 {
-	if (!isConnected)
-	{
-		return NULL;
-	}
 	char* buffer = (char*)calloc(BUFFER_SIZE, sizeof(char));
 	int bytesRead = 0;
 	if (!ReadFile(hCom, buffer, BUFFER_SIZE - 1, (LPDWORD)&bytesRead, NULL))
@@ -107,10 +101,6 @@ const char* read_from_com_port(HANDLE hCom)
 
 long is_available(HANDLE hCom)
 {
-	if (!isConnected)
-	{
-		return -1;
-	}
 	DWORD errors;
 	COMSTAT cs;
 	unsigned long res = 0;
@@ -130,10 +120,6 @@ long is_available(HANDLE hCom)
 
 BOOLEAN write_to_com_port(HANDLE hCom, const char* data)
 {
-	if (!isConnected)
-	{
-		return FALSE;
-	}
 	DWORD bytesWritten;
 	if (!WriteFile(hCom, data, strlen(data), &bytesWritten, NULL))
 	{
