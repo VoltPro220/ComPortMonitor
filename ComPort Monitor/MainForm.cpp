@@ -2,10 +2,13 @@
 #include "SettingsForm.h"
 
 using namespace System;
+using namespace System::Threading;
 using namespace System::Windows::Forms;
 
 com_port_monitor::MainForm::MainForm(void)
 {
+	Thread::CurrentThread->CurrentUICulture = Globalization::CultureInfo::GetCultureInfo("en");
+	Thread::CurrentThread->CurrentCulture = Globalization::CultureInfo::GetCultureInfo("en");
 	this->InitializeComponent();
 	this->saveFileDialog->Filter = "Текстовые файлы (*.txt)|*.txt|Все файлы|*.*";
 }
@@ -186,7 +189,10 @@ System::Void com_port_monitor::MainForm::MainForm_Load(System::Object^ sender, S
 //
 System::Void com_port_monitor::MainForm::chartToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e)
 {
-	return System::Void();
+	com_port_monitor::ChartForm^ form = gcnew com_port_monitor::ChartForm;
+	form->Show();
+	this->Hide();
+	this->disconnectPortCom();
 }
 
 //
@@ -250,7 +256,8 @@ System::Void com_port_monitor::MainForm::buttonClearConsole_Click(System::Object
 //
 bool com_port_monitor::MainForm::connectToPort()
 {
-
+	this->comPort = this->comboBoxComPorts->Text;
+	this->baudRate = Convert::ToInt32(this->comboBoxBaudRate->Text);
 	this->hPortCom = open_com_port(this->hPortCom,
 								   (char*)(void*)System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(this->comPort),
 								   this->baudRate);

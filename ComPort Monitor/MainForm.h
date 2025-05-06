@@ -1,6 +1,6 @@
 #pragma once
 #include "src/SerialOperation/stducp.h"
-#include <string>
+#include "ChartForm.h"
 
 namespace com_port_monitor
 {
@@ -69,6 +69,18 @@ namespace com_port_monitor
 		void InitializeComponent(void)
 		{
 			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(MainForm::typeid));
+			this->splitContainer1 = (gcnew System::Windows::Forms::SplitContainer());
+			this->splitContainer2 = (gcnew System::Windows::Forms::SplitContainer());
+			this->buttonUpdateComPorts = (gcnew System::Windows::Forms::Button());
+			this->buttonClearConsole = (gcnew System::Windows::Forms::Button());
+			this->label2 = (gcnew System::Windows::Forms::Label());
+			this->comboBoxBaudRate = (gcnew System::Windows::Forms::ComboBox());
+			this->buttonConnectToComPort = (gcnew System::Windows::Forms::Button());
+			this->label1 = (gcnew System::Windows::Forms::Label());
+			this->comboBoxComPorts = (gcnew System::Windows::Forms::ComboBox());
+			this->textBoxConsole = (gcnew System::Windows::Forms::TextBox());
+			this->buttonSendCommand = (gcnew System::Windows::Forms::Button());
+			this->textBoxWriteCommand = (gcnew System::Windows::Forms::TextBox());
 			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
 			this->fileToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->saveLogsToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
@@ -89,22 +101,9 @@ namespace com_port_monitor
 			this->gitHubToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->documentationToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->aboutToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->splitContainer1 = (gcnew System::Windows::Forms::SplitContainer());
-			this->splitContainer2 = (gcnew System::Windows::Forms::SplitContainer());
-			this->buttonUpdateComPorts = (gcnew System::Windows::Forms::Button());
-			this->buttonClearConsole = (gcnew System::Windows::Forms::Button());
-			this->label2 = (gcnew System::Windows::Forms::Label());
-			this->comboBoxBaudRate = (gcnew System::Windows::Forms::ComboBox());
-			this->buttonConnectToComPort = (gcnew System::Windows::Forms::Button());
-			this->label1 = (gcnew System::Windows::Forms::Label());
-			this->comboBoxComPorts = (gcnew System::Windows::Forms::ComboBox());
-			this->textBoxConsole = (gcnew System::Windows::Forms::TextBox());
-			this->buttonSendCommand = (gcnew System::Windows::Forms::Button());
-			this->textBoxWriteCommand = (gcnew System::Windows::Forms::TextBox());
 			this->saveFileDialog = (gcnew System::Windows::Forms::SaveFileDialog());
 			this->printDialog = (gcnew System::Windows::Forms::PrintDialog());
 			this->printDocument = (gcnew System::Drawing::Printing::PrintDocument());
-			this->menuStrip1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->splitContainer1))->BeginInit();
 			this->splitContainer1->Panel1->SuspendLayout();
 			this->splitContainer1->Panel2->SuspendLayout();
@@ -113,7 +112,123 @@ namespace com_port_monitor
 			this->splitContainer2->Panel1->SuspendLayout();
 			this->splitContainer2->Panel2->SuspendLayout();
 			this->splitContainer2->SuspendLayout();
+			this->menuStrip1->SuspendLayout();
 			this->SuspendLayout();
+			// 
+			// splitContainer1
+			// 
+			this->splitContainer1->BorderStyle = System::Windows::Forms::BorderStyle::Fixed3D;
+			resources->ApplyResources(this->splitContainer1, L"splitContainer1");
+			this->splitContainer1->FixedPanel = System::Windows::Forms::FixedPanel::Panel2;
+			this->splitContainer1->Name = L"splitContainer1";
+			// 
+			// splitContainer1.Panel1
+			// 
+			this->splitContainer1->Panel1->Controls->Add(this->splitContainer2);
+			// 
+			// splitContainer1.Panel2
+			// 
+			this->splitContainer1->Panel2->Controls->Add(this->buttonSendCommand);
+			this->splitContainer1->Panel2->Controls->Add(this->textBoxWriteCommand);
+			// 
+			// splitContainer2
+			// 
+			this->splitContainer2->BorderStyle = System::Windows::Forms::BorderStyle::Fixed3D;
+			resources->ApplyResources(this->splitContainer2, L"splitContainer2");
+			this->splitContainer2->FixedPanel = System::Windows::Forms::FixedPanel::Panel1;
+			this->splitContainer2->Name = L"splitContainer2";
+			// 
+			// splitContainer2.Panel1
+			// 
+			this->splitContainer2->Panel1->Controls->Add(this->buttonUpdateComPorts);
+			this->splitContainer2->Panel1->Controls->Add(this->buttonClearConsole);
+			this->splitContainer2->Panel1->Controls->Add(this->label2);
+			this->splitContainer2->Panel1->Controls->Add(this->comboBoxBaudRate);
+			this->splitContainer2->Panel1->Controls->Add(this->buttonConnectToComPort);
+			this->splitContainer2->Panel1->Controls->Add(this->label1);
+			this->splitContainer2->Panel1->Controls->Add(this->comboBoxComPorts);
+			// 
+			// splitContainer2.Panel2
+			// 
+			this->splitContainer2->Panel2->Controls->Add(this->textBoxConsole);
+			// 
+			// buttonUpdateComPorts
+			// 
+			resources->ApplyResources(this->buttonUpdateComPorts, L"buttonUpdateComPorts");
+			this->buttonUpdateComPorts->Cursor = System::Windows::Forms::Cursors::Hand;
+			this->buttonUpdateComPorts->Name = L"buttonUpdateComPorts";
+			this->buttonUpdateComPorts->UseVisualStyleBackColor = true;
+			this->buttonUpdateComPorts->Click += gcnew System::EventHandler(this, &MainForm::buttonUpdateComPorts_Click);
+			// 
+			// buttonClearConsole
+			// 
+			resources->ApplyResources(this->buttonClearConsole, L"buttonClearConsole");
+			this->buttonClearConsole->Cursor = System::Windows::Forms::Cursors::Hand;
+			this->buttonClearConsole->Name = L"buttonClearConsole";
+			this->buttonClearConsole->UseVisualStyleBackColor = true;
+			this->buttonClearConsole->Click += gcnew System::EventHandler(this, &MainForm::buttonClearConsole_Click);
+			// 
+			// label2
+			// 
+			resources->ApplyResources(this->label2, L"label2");
+			this->label2->Name = L"label2";
+			// 
+			// comboBoxBaudRate
+			// 
+			this->comboBoxBaudRate->FormattingEnabled = true;
+			this->comboBoxBaudRate->Items->AddRange(gcnew cli::array< System::Object^  >(14)
+			{
+				resources->GetString(L"comboBoxBaudRate.Items"),
+					resources->GetString(L"comboBoxBaudRate.Items1"), resources->GetString(L"comboBoxBaudRate.Items2"), resources->GetString(L"comboBoxBaudRate.Items3"),
+					resources->GetString(L"comboBoxBaudRate.Items4"), resources->GetString(L"comboBoxBaudRate.Items5"), resources->GetString(L"comboBoxBaudRate.Items6"),
+					resources->GetString(L"comboBoxBaudRate.Items7"), resources->GetString(L"comboBoxBaudRate.Items8"), resources->GetString(L"comboBoxBaudRate.Items9"),
+					resources->GetString(L"comboBoxBaudRate.Items10"), resources->GetString(L"comboBoxBaudRate.Items11"), resources->GetString(L"comboBoxBaudRate.Items12"),
+					resources->GetString(L"comboBoxBaudRate.Items13")
+			});
+			resources->ApplyResources(this->comboBoxBaudRate, L"comboBoxBaudRate");
+			this->comboBoxBaudRate->Name = L"comboBoxBaudRate";
+			this->comboBoxBaudRate->SelectedIndexChanged += gcnew System::EventHandler(this, &MainForm::setBaudRateComboBox);
+			// 
+			// buttonConnectToComPort
+			// 
+			resources->ApplyResources(this->buttonConnectToComPort, L"buttonConnectToComPort");
+			this->buttonConnectToComPort->Cursor = System::Windows::Forms::Cursors::Hand;
+			this->buttonConnectToComPort->Name = L"buttonConnectToComPort";
+			this->buttonConnectToComPort->UseVisualStyleBackColor = true;
+			this->buttonConnectToComPort->Click += gcnew System::EventHandler(this, &MainForm::buttonConnectToComPort_Click);
+			// 
+			// label1
+			// 
+			resources->ApplyResources(this->label1, L"label1");
+			this->label1->Name = L"label1";
+			// 
+			// comboBoxComPorts
+			// 
+			this->comboBoxComPorts->FormattingEnabled = true;
+			resources->ApplyResources(this->comboBoxComPorts, L"comboBoxComPorts");
+			this->comboBoxComPorts->Name = L"comboBoxComPorts";
+			this->comboBoxComPorts->SelectedIndexChanged += gcnew System::EventHandler(this, &MainForm::chooseComPortComboBox);
+			// 
+			// textBoxConsole
+			// 
+			resources->ApplyResources(this->textBoxConsole, L"textBoxConsole");
+			this->textBoxConsole->Name = L"textBoxConsole";
+			this->textBoxConsole->ReadOnly = true;
+			this->textBoxConsole->TabStop = false;
+			// 
+			// buttonSendCommand
+			// 
+			resources->ApplyResources(this->buttonSendCommand, L"buttonSendCommand");
+			this->buttonSendCommand->Cursor = System::Windows::Forms::Cursors::Hand;
+			this->buttonSendCommand->Name = L"buttonSendCommand";
+			this->buttonSendCommand->UseVisualStyleBackColor = true;
+			this->buttonSendCommand->Click += gcnew System::EventHandler(this, &MainForm::buttonSendCommand_Click);
+			// 
+			// textBoxWriteCommand
+			// 
+			resources->ApplyResources(this->textBoxWriteCommand, L"textBoxWriteCommand");
+			this->textBoxWriteCommand->Name = L"textBoxWriteCommand";
+			this->textBoxWriteCommand->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &MainForm::textBoxWriteCommand_KeyDown);
 			// 
 			// menuStrip1
 			// 
@@ -254,121 +369,6 @@ namespace com_port_monitor
 			resources->ApplyResources(this->aboutToolStripMenuItem, L"aboutToolStripMenuItem");
 			this->aboutToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainForm::aboutToolStripMenuItem_Click);
 			// 
-			// splitContainer1
-			// 
-			this->splitContainer1->BorderStyle = System::Windows::Forms::BorderStyle::Fixed3D;
-			resources->ApplyResources(this->splitContainer1, L"splitContainer1");
-			this->splitContainer1->FixedPanel = System::Windows::Forms::FixedPanel::Panel2;
-			this->splitContainer1->Name = L"splitContainer1";
-			// 
-			// splitContainer1.Panel1
-			// 
-			this->splitContainer1->Panel1->Controls->Add(this->splitContainer2);
-			// 
-			// splitContainer1.Panel2
-			// 
-			this->splitContainer1->Panel2->Controls->Add(this->buttonSendCommand);
-			this->splitContainer1->Panel2->Controls->Add(this->textBoxWriteCommand);
-			// 
-			// splitContainer2
-			// 
-			this->splitContainer2->BorderStyle = System::Windows::Forms::BorderStyle::Fixed3D;
-			resources->ApplyResources(this->splitContainer2, L"splitContainer2");
-			this->splitContainer2->FixedPanel = System::Windows::Forms::FixedPanel::Panel1;
-			this->splitContainer2->Name = L"splitContainer2";
-			// 
-			// splitContainer2.Panel1
-			// 
-			this->splitContainer2->Panel1->Controls->Add(this->buttonUpdateComPorts);
-			this->splitContainer2->Panel1->Controls->Add(this->buttonClearConsole);
-			this->splitContainer2->Panel1->Controls->Add(this->label2);
-			this->splitContainer2->Panel1->Controls->Add(this->comboBoxBaudRate);
-			this->splitContainer2->Panel1->Controls->Add(this->buttonConnectToComPort);
-			this->splitContainer2->Panel1->Controls->Add(this->label1);
-			this->splitContainer2->Panel1->Controls->Add(this->comboBoxComPorts);
-			// 
-			// splitContainer2.Panel2
-			// 
-			this->splitContainer2->Panel2->Controls->Add(this->textBoxConsole);
-			// 
-			// buttonUpdateComPorts
-			// 
-			resources->ApplyResources(this->buttonUpdateComPorts, L"buttonUpdateComPorts");
-			this->buttonUpdateComPorts->Cursor = System::Windows::Forms::Cursors::Hand;
-			this->buttonUpdateComPorts->Name = L"buttonUpdateComPorts";
-			this->buttonUpdateComPorts->UseVisualStyleBackColor = true;
-			this->buttonUpdateComPorts->Click += gcnew System::EventHandler(this, &MainForm::buttonUpdateComPorts_Click);
-			// 
-			// buttonClearConsole
-			// 
-			resources->ApplyResources(this->buttonClearConsole, L"buttonClearConsole");
-			this->buttonClearConsole->Cursor = System::Windows::Forms::Cursors::Hand;
-			this->buttonClearConsole->Name = L"buttonClearConsole";
-			this->buttonClearConsole->UseVisualStyleBackColor = true;
-			this->buttonClearConsole->Click += gcnew System::EventHandler(this, &MainForm::buttonClearConsole_Click);
-			// 
-			// label2
-			// 
-			resources->ApplyResources(this->label2, L"label2");
-			this->label2->Name = L"label2";
-			// 
-			// comboBoxBaudRate
-			// 
-			this->comboBoxBaudRate->FormattingEnabled = true;
-			this->comboBoxBaudRate->Items->AddRange(gcnew cli::array< System::Object^  >(14)
-			{
-				resources->GetString(L"comboBoxBaudRate.Items"),
-					resources->GetString(L"comboBoxBaudRate.Items1"), resources->GetString(L"comboBoxBaudRate.Items2"), resources->GetString(L"comboBoxBaudRate.Items3"),
-					resources->GetString(L"comboBoxBaudRate.Items4"), resources->GetString(L"comboBoxBaudRate.Items5"), resources->GetString(L"comboBoxBaudRate.Items6"),
-					resources->GetString(L"comboBoxBaudRate.Items7"), resources->GetString(L"comboBoxBaudRate.Items8"), resources->GetString(L"comboBoxBaudRate.Items9"),
-					resources->GetString(L"comboBoxBaudRate.Items10"), resources->GetString(L"comboBoxBaudRate.Items11"), resources->GetString(L"comboBoxBaudRate.Items12"),
-					resources->GetString(L"comboBoxBaudRate.Items13")
-			});
-			resources->ApplyResources(this->comboBoxBaudRate, L"comboBoxBaudRate");
-			this->comboBoxBaudRate->Name = L"comboBoxBaudRate";
-			this->comboBoxBaudRate->SelectedIndexChanged += gcnew System::EventHandler(this, &MainForm::setBaudRateComboBox);
-			// 
-			// buttonConnectToComPort
-			// 
-			resources->ApplyResources(this->buttonConnectToComPort, L"buttonConnectToComPort");
-			this->buttonConnectToComPort->Cursor = System::Windows::Forms::Cursors::Hand;
-			this->buttonConnectToComPort->Name = L"buttonConnectToComPort";
-			this->buttonConnectToComPort->UseVisualStyleBackColor = true;
-			this->buttonConnectToComPort->Click += gcnew System::EventHandler(this, &MainForm::buttonConnectToComPort_Click);
-			// 
-			// label1
-			// 
-			resources->ApplyResources(this->label1, L"label1");
-			this->label1->Name = L"label1";
-			// 
-			// comboBoxComPorts
-			// 
-			this->comboBoxComPorts->FormattingEnabled = true;
-			resources->ApplyResources(this->comboBoxComPorts, L"comboBoxComPorts");
-			this->comboBoxComPorts->Name = L"comboBoxComPorts";
-			this->comboBoxComPorts->SelectedIndexChanged += gcnew System::EventHandler(this, &MainForm::chooseComPortComboBox);
-			// 
-			// textBoxConsole
-			// 
-			resources->ApplyResources(this->textBoxConsole, L"textBoxConsole");
-			this->textBoxConsole->Name = L"textBoxConsole";
-			this->textBoxConsole->ReadOnly = true;
-			this->textBoxConsole->TabStop = false;
-			// 
-			// buttonSendCommand
-			// 
-			resources->ApplyResources(this->buttonSendCommand, L"buttonSendCommand");
-			this->buttonSendCommand->Cursor = System::Windows::Forms::Cursors::Hand;
-			this->buttonSendCommand->Name = L"buttonSendCommand";
-			this->buttonSendCommand->UseVisualStyleBackColor = true;
-			this->buttonSendCommand->Click += gcnew System::EventHandler(this, &MainForm::buttonSendCommand_Click);
-			// 
-			// textBoxWriteCommand
-			// 
-			resources->ApplyResources(this->textBoxWriteCommand, L"textBoxWriteCommand");
-			this->textBoxWriteCommand->Name = L"textBoxWriteCommand";
-			this->textBoxWriteCommand->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &MainForm::textBoxWriteCommand_KeyDown);
-			// 
 			// printDialog
 			// 
 			this->printDialog->AllowSomePages = true;
@@ -390,8 +390,6 @@ namespace com_port_monitor
 			this->FormClosed += gcnew System::Windows::Forms::FormClosedEventHandler(this, &MainForm::MainForm_FormClosed);
 			this->Load += gcnew System::EventHandler(this, &MainForm::MainForm_Load);
 			this->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &MainForm::mainForm_KeyDown);
-			this->menuStrip1->ResumeLayout(false);
-			this->menuStrip1->PerformLayout();
 			this->splitContainer1->Panel1->ResumeLayout(false);
 			this->splitContainer1->Panel2->ResumeLayout(false);
 			this->splitContainer1->Panel2->PerformLayout();
@@ -403,6 +401,8 @@ namespace com_port_monitor
 			this->splitContainer2->Panel2->PerformLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->splitContainer2))->EndInit();
 			this->splitContainer2->ResumeLayout(false);
+			this->menuStrip1->ResumeLayout(false);
+			this->menuStrip1->PerformLayout();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 

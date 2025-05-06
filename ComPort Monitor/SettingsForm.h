@@ -30,19 +30,18 @@ namespace com_port_monitor
 		System::Windows::Forms::SplitContainer^ splitContainer1;
 		System::Windows::Forms::Button^ buttonSuccess;
 		System::Windows::Forms::Button^ buttonCancel;
-	private: System::Windows::Forms::Label^ label1;
-	private: System::Windows::Forms::ComboBox^ comboBox1;
-
+		System::Windows::Forms::Label^ label1;
+		System::Windows::Forms::ComboBox^ comboBoxLang;
 		System::ComponentModel::Container^ components;
 
 #pragma region Windows Form Designer generated code
 		void InitializeComponent(void)
 		{
 			this->splitContainer1 = (gcnew System::Windows::Forms::SplitContainer());
+			this->label1 = (gcnew System::Windows::Forms::Label());
+			this->comboBoxLang = (gcnew System::Windows::Forms::ComboBox());
 			this->buttonSuccess = (gcnew System::Windows::Forms::Button());
 			this->buttonCancel = (gcnew System::Windows::Forms::Button());
-			this->comboBox1 = (gcnew System::Windows::Forms::ComboBox());
-			this->label1 = (gcnew System::Windows::Forms::Label());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->splitContainer1))->BeginInit();
 			this->splitContainer1->Panel1->SuspendLayout();
 			this->splitContainer1->Panel2->SuspendLayout();
@@ -60,7 +59,7 @@ namespace com_port_monitor
 			// splitContainer1.Panel1
 			// 
 			this->splitContainer1->Panel1->Controls->Add(this->label1);
-			this->splitContainer1->Panel1->Controls->Add(this->comboBox1);
+			this->splitContainer1->Panel1->Controls->Add(this->comboBoxLang);
 			// 
 			// splitContainer1.Panel2
 			// 
@@ -69,6 +68,27 @@ namespace com_port_monitor
 			this->splitContainer1->Size = System::Drawing::Size(486, 465);
 			this->splitContainer1->SplitterDistance = 386;
 			this->splitContainer1->TabIndex = 0;
+			// 
+			// label1
+			// 
+			this->label1->AutoSize = true;
+			this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+								  static_cast<System::Byte>(204)));
+			this->label1->Location = System::Drawing::Point(49, 59);
+			this->label1->Name = L"label1";
+			this->label1->Size = System::Drawing::Size(61, 24);
+			this->label1->TabIndex = 1;
+			this->label1->Text = L"язык";
+			// 
+			// comboBoxLang
+			// 
+			this->comboBoxLang->FormattingEnabled = true;
+			this->comboBoxLang->Items->AddRange(gcnew cli::array< System::Object^  >(2) { L"–усский", L"English" });
+			this->comboBoxLang->Location = System::Drawing::Point(26, 86);
+			this->comboBoxLang->Name = L"comboBoxLang";
+			this->comboBoxLang->Size = System::Drawing::Size(121, 21);
+			this->comboBoxLang->TabIndex = 0;
+			this->comboBoxLang->Text = L"–усский";
 			// 
 			// buttonSuccess
 			// 
@@ -81,6 +101,7 @@ namespace com_port_monitor
 			this->buttonSuccess->TabIndex = 1;
 			this->buttonSuccess->Text = L"ѕрименить";
 			this->buttonSuccess->UseVisualStyleBackColor = true;
+			this->buttonSuccess->Click += gcnew System::EventHandler(this, &SettingsForm::buttonSuccess_Click);
 			// 
 			// buttonCancel
 			// 
@@ -93,23 +114,7 @@ namespace com_port_monitor
 			this->buttonCancel->TabIndex = 0;
 			this->buttonCancel->Text = L"ќтмена";
 			this->buttonCancel->UseVisualStyleBackColor = true;
-			// 
-			// comboBox1
-			// 
-			this->comboBox1->FormattingEnabled = true;
-			this->comboBox1->Location = System::Drawing::Point(53, 105);
-			this->comboBox1->Name = L"comboBox1";
-			this->comboBox1->Size = System::Drawing::Size(121, 21);
-			this->comboBox1->TabIndex = 0;
-			// 
-			// label1
-			// 
-			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(68, 77);
-			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(35, 13);
-			this->label1->TabIndex = 1;
-			this->label1->Text = L"язык";
+			this->buttonCancel->Click += gcnew System::EventHandler(this, &SettingsForm::buttonCancel_Click);
 			// 
 			// SettingsForm
 			// 
@@ -131,5 +136,7 @@ namespace com_port_monitor
 
 		}
 #pragma endregion
+		System::Void buttonCancel_Click(System::Object^ sender, System::EventArgs^ e);
+		System::Void buttonSuccess_Click(System::Object^ sender, System::EventArgs^ e);
 	};
 }
