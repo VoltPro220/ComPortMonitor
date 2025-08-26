@@ -1,6 +1,7 @@
 #pragma once
 #include "src/SerialOperation/stducp.h"
 #include "ChartForm.h"
+#include "SettingsForm.h"
 
 namespace com_port_monitor
 {
@@ -10,6 +11,7 @@ namespace com_port_monitor
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
+
 
 	public ref class MainForm : public System::Windows::Forms::Form
 	{
@@ -61,9 +63,12 @@ namespace com_port_monitor
 		DateTime dateTime;
 		HANDLE hPortCom;
 		bool isConnectedToComPort = false;
-		int baudRate = 9600;
+		int baudRate;
 		String^ comPort;
+		System::Windows::Forms::CheckBox^ checkBoxAutoCon;
+		bool isAutoExtern;
 		System::Threading::Thread^ th;
+
 
 #pragma region Windows Form Designer generated code
 		void InitializeComponent(void)
@@ -71,6 +76,7 @@ namespace com_port_monitor
 			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(MainForm::typeid));
 			this->splitContainer1 = (gcnew System::Windows::Forms::SplitContainer());
 			this->splitContainer2 = (gcnew System::Windows::Forms::SplitContainer());
+			this->checkBoxAutoCon = (gcnew System::Windows::Forms::CheckBox());
 			this->buttonUpdateComPorts = (gcnew System::Windows::Forms::Button());
 			this->buttonClearConsole = (gcnew System::Windows::Forms::Button());
 			this->label2 = (gcnew System::Windows::Forms::Label());
@@ -140,6 +146,7 @@ namespace com_port_monitor
 			// 
 			// splitContainer2.Panel1
 			// 
+			this->splitContainer2->Panel1->Controls->Add(this->checkBoxAutoCon);
 			this->splitContainer2->Panel1->Controls->Add(this->buttonUpdateComPorts);
 			this->splitContainer2->Panel1->Controls->Add(this->buttonClearConsole);
 			this->splitContainer2->Panel1->Controls->Add(this->label2);
@@ -151,6 +158,13 @@ namespace com_port_monitor
 			// splitContainer2.Panel2
 			// 
 			this->splitContainer2->Panel2->Controls->Add(this->textBoxConsole);
+			// 
+			// checkBoxAutoCon
+			// 
+			resources->ApplyResources(this->checkBoxAutoCon, L"checkBoxAutoCon");
+			this->checkBoxAutoCon->Name = L"checkBoxAutoCon";
+			this->checkBoxAutoCon->UseVisualStyleBackColor = true;
+			this->checkBoxAutoCon->CheckedChanged += gcnew System::EventHandler(this, &MainForm::checkBoxAutoCon_CheckedChanged);
 			// 
 			// buttonUpdateComPorts
 			// 
@@ -387,7 +401,7 @@ namespace com_port_monitor
 			this->Controls->Add(this->menuStrip1);
 			this->KeyPreview = true;
 			this->Name = L"MainForm";
-			this->FormClosed += gcnew System::Windows::Forms::FormClosedEventHandler(this, &MainForm::MainForm_FormClosed);
+			this->FormClosed += gcnew System::Windows::Forms::FormClosedEventHandler(this, &MainForm::mainForm_FormClosed);
 			this->Load += gcnew System::EventHandler(this, &MainForm::MainForm_Load);
 			this->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &MainForm::mainForm_KeyDown);
 			this->splitContainer1->Panel1->ResumeLayout(false);
@@ -426,9 +440,10 @@ namespace com_port_monitor
 		System::Void chartToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e);
 		System::Void connectToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e);
 		System::Void buttonClearConsole_Click(System::Object^ sender, System::EventArgs^ e);
-		System::Void MainForm_FormClosed(System::Object^ sender, System::Windows::Forms::FormClosedEventArgs^ e);
+		System::Void mainForm_FormClosed(System::Object^ sender, System::Windows::Forms::FormClosedEventArgs^ e);
 		System::Void buttonUpdateComPorts_Click(System::Object^ sender, System::EventArgs^ e);
 		System::Void updateToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e);
+		System::Void checkBoxAutoCon_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
 		void setBaudRate(System::Object^, System::EventArgs^);
 		void setBaudRateComboBox(System::Object^, System::EventArgs^);
 		void chooseComPort(System::Object^, System::EventArgs^);
