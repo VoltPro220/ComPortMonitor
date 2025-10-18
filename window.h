@@ -17,6 +17,15 @@ public:
     Window(QWidget *parent = nullptr);
     ~Window();
 
+private slots:
+    void on_btn_SendCommand_clicked();
+
+    void on_btn_Connect_clicked();
+
+    void on_btn_Clear_clicked();
+
+    void on_menuBar_Exit_triggered();
+
 private:
     Ui::Window *ui;
 };

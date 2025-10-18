@@ -23,6 +23,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(ComPortMonitor
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
+        cpm.qrc
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET ComPortMonitor APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
@@ -57,6 +58,7 @@ set_target_properties(ComPortMonitor PROPERTIES
     MACOSX_BUNDLE TRUE
     WIN32_EXECUTABLE TRUE
 )
+
 
 include(GNUInstallDirs)
 install(TARGETS ComPortMonitor
