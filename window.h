@@ -1,6 +1,8 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
+#include "popup.h"
+
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -26,7 +28,19 @@ private slots:
 
     void on_menuBar_Exit_triggered();
 
+    void on_menuBar_Save_triggered();
+
+    void on_menuBar_SaveAs_triggered();
+
+    void on_menuBar_GitHub_triggered();
+
+    void on_menuBar_Print_triggered();
+
+    void on_lineEdit_Command_returnPressed();
+
 private:
+    void openFileDialogToSave();
     Ui::Window *ui;
+    PopUp *popUp;
 };
 #endif // WINDOW_H

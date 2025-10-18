@@ -72,7 +72,7 @@
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="currentText">
-           <string>9600</string>
+           <string>300</string>
           </property>
           <item>
            <property name="text">
@@ -239,7 +239,7 @@
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="currentText">
-           <string>8</string>
+           <string>5</string>
           </property>
           <item>
            <property name="text">
@@ -400,7 +400,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <addaction name="menuBar_connect"/>
     <addaction name="menuBar_UpdatePorts"/>
     <addaction name="separator"/>
-    <addaction name="actionCOM"/>
+    <addaction name="menuBar_Connect"/>
     <addaction name="menuBar_BaudRate"/>
    </widget>
    <widget class="QMenu" name="menu_3">
@@ -484,7 +484,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <string>Обновить</string>
    </property>
   </action>
-  <action name="actionCOM">
+  <action name="menuBar_Connect">
    <property name="text">
     <string>COM</string>
    </property>

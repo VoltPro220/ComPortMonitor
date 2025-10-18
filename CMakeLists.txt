@@ -20,10 +20,13 @@ set(PROJECT_SOURCES
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
+    find_package(Qt6 REQUIRED COMPONENTS PrintSupport)
+
     qt_add_executable(ComPortMonitor
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
         cpm.qrc
+        popup.h popup.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET ComPortMonitor APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
@@ -44,6 +47,7 @@ else()
 endif()
 
 target_link_libraries(ComPortMonitor PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(ComPortMonitor PRIVATE Qt6::PrintSupport)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
@@ -58,7 +62,6 @@ set_target_properties(ComPortMonitor PROPERTIES
     MACOSX_BUNDLE TRUE
     WIN32_EXECUTABLE TRUE
 )
-
 
 include(GNUInstallDirs)
 install(TARGETS ComPortMonitor

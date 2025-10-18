@@ -8,7 +8,6 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     Window w;
 
-    //a.setWindowIcon(QIcon(":/resources/cpm.ico"));
     a.setApplicationVersion("0.0.0");
     a.setApplicationName("Com Port Monitor");
     a.setOrganizationName("Volt");
