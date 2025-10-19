@@ -1,9 +1,9 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
-#include "popup.h"
-
 #include <QMainWindow>
+#include "../libs/popup/popup.h"
+#include "../libs/sp/serialport.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -14,6 +14,11 @@ QT_END_NAMESPACE
 class Window : public QMainWindow
 {
     Q_OBJECT
+
+    void openFileDialogToSave();
+    Ui::Window *ui;
+    PopUp *popUp;
+    SerialPort *serialPort;
 
 public:
     Window(QWidget *parent = nullptr);
@@ -38,9 +43,7 @@ private slots:
 
     void on_lineEdit_Command_returnPressed();
 
-private:
-    void openFileDialogToSave();
-    Ui::Window *ui;
-    PopUp *popUp;
+    void on_menuBar_Settings_triggered();
+
 };
 #endif // WINDOW_H

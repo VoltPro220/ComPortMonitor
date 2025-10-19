@@ -1,5 +1,5 @@
-#include "window.h"
-#include "./ui_window.h"
+#include "./window.h"
+#include <./ui_window.h>
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QTextStream>
@@ -13,11 +13,13 @@ Window::Window(QWidget *parent)
 {
     ui->setupUi(this);
     popUp = new PopUp();
+    serialPort = new SerialPort;
 }
 
 Window::~Window()
 {
     delete ui;
+    delete serialPort;
 }
 
 void Window::on_btn_SendCommand_clicked()
@@ -27,6 +29,25 @@ void Window::on_btn_SendCommand_clicked()
 
 void Window::on_btn_Connect_clicked()
 {
+    serialPort->findAllPorts();
+    auto ports = serialPort->getPortInfo();
+
+    if (ports.isEmpty()) {
+        popUp->setPopupText("Ничего не найдено");
+        popUp->show();
+        return;
+    }
+    for (const auto &port : ports)
+    {
+        ui->textEdit->insertPlainText("Port: " + port.portName + '\n');
+        ui->textEdit->insertPlainText("Description: " + port.description + '\n');
+        ui->textEdit->insertPlainText("Manufacturer: " + port.manufacturer + '\n');
+        ui->textEdit->insertPlainText("System Location: " + port.systemLocation + '\n');
+        ui->textEdit->insertPlainText("Vendor ID: " + (!port.vendorId.isEmpty() ? port.vendorId : "N/A") + '\n');
+        ui->textEdit->insertPlainText("Product ID: " + (!port.productId.isEmpty() ? port.productId : "N/A") + '\n');
+        ui->textEdit->insertPlainText("-----------------------------------\n");
+    }
+
 }
 
 
@@ -134,5 +155,11 @@ void Window::on_lineEdit_Command_returnPressed()
         ui->btn_SendCommand->click();
         ui->lineEdit_Command->clear();
     }
+}
+
+
+void Window::on_menuBar_Settings_triggered()
+{
+    // TODO: OPEN SETTINGS
 }
 

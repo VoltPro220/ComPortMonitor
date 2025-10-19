@@ -1,5 +1,5 @@
 <RCC>
     <qresource prefix="/rc">
-        <file>resources/cpm.ico</file>
+        <file>img/cpm.ico</file>
     </qresource>
 </RCC>

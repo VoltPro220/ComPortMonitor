@@ -14,7 +14,7 @@
    <string>Com Port Monitor</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="cpm.qrc">
+   <iconset>
     <normaloff>:/rc/resources/cpm.ico</normaloff>:/rc/resources/cpm.ico</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -560,8 +560,6 @@ li.checked::marker { content: &quot;\2612&quot;; }
    </property>
   </action>
  </widget>
- <resources>
-  <include location="cpm.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
