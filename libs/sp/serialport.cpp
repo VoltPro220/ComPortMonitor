@@ -2,7 +2,7 @@
 #include <QtSerialPort/QSerialPortInfo>
 #include <QDebug>
 
-SerialPort::SerialPort() {}
+
 
 void SerialPort::findAllPorts()
 {
@@ -56,6 +56,26 @@ void SerialPort::findAllPorts()
 
 }
 
+SerialPort::SerialPort()
+{
+
+};
+
+SerialPort::~SerialPort()
+{
+    close();
+}
+
+void SerialPort::setSettings(COMPortSettings &settings)
+{
+    this->settings.setPortName(settings.portName());
+    this->settings.setBaudRate(settings.baudRate());
+    this->settings.setStopBits(settings.stopBits());
+    this->settings.setDataBits(settings.dataBits());
+    this->settings.setParity(settings.parity());
+    this->settings.setFlowControl(settings.flowControl());
+}
+
 void SerialPort::startTimerForUpdateCP(quint16 period = 2000)
 {
     this->period = period;
@@ -71,6 +91,49 @@ void SerialPort::stopTimerForIpdateCP()
 {
     m_portCheckTimer->stop();
     disconnect(m_portCheckTimer, &QTimer::timeout, nullptr, nullptr);
+}
+
+bool SerialPort::open()
+{
+
+    m_serialPort = new QSerialPort;
+
+    m_serialPort->setPortName(settings.portName());
+    m_serialPort->setBaudRate(settings.baudRate());
+    m_serialPort->setDataBits(settings.dataBits());
+    m_serialPort->setParity(settings.parity());
+    m_serialPort->setStopBits(settings.stopBits());
+    m_serialPort->setFlowControl(settings.flowControl());
+
+    if (m_serialPort->open(QIODevice::ReadWrite)) {
+        qDebug() << "Port opened successfully:" << settings.toString();
+        return true;
+    }
+
+    else {
+        delete m_serialPort;
+        m_serialPort = nullptr;
+        return false;
+    }
+
+}
+
+void SerialPort::close()
+{
+    if (m_serialPort->isOpen()) {
+        m_serialPort->close();
+        qDebug() << "Port closed";
+    }
+
+    if (m_serialPort) {
+        delete m_serialPort;
+        m_serialPort = nullptr;
+    }
+}
+
+bool SerialPort::isOpen() const
+{
+    return m_serialPort && m_serialPort->isOpen();
 }
 
 const QList<PortInfo>& SerialPort::getPortInfo() const noexcept

@@ -3,6 +3,7 @@
 
 #include <QtSerialPort/QSerialPort>
 #include <QTimer>
+#include "setting.h"
 
 struct PortInfo {
     QString portName;
@@ -35,17 +36,30 @@ class SerialPort : public QObject
     QList<PortInfo> all_ports;
     QTimer *m_portCheckTimer;
 
+    QSerialPort *m_serialPort;
+
     quint16 period;
+
+    COMPortSettings settings;
 
 public:
     SerialPort();
+    ~SerialPort();
+
     void findAllPorts();
+    void setSettings(COMPortSettings& settings);
 
     void startTimerForUpdateCP(quint16);
     void stopTimerForIpdateCP();
 
+    void extracted();
+    bool open();
+
     const QList<PortInfo>& getPortInfo() const noexcept;
 
+    void close();
+
+    bool isOpen() const;
 public slots:
     void slotUpdateSP();
 

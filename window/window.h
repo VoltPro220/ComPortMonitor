@@ -27,6 +27,7 @@ public:
 private:
 
     void scrollDown();
+    void openClosePort(QString);
 
 private slots:
     void on_btn_SendCommand_clicked();

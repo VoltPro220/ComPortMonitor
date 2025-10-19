@@ -30,6 +30,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         resources/cpm.rc
         libs/popup/popup.h libs/popup/popup.cpp
         libs/sp/serialport.h libs/sp/serialport.cpp
+        libs/sp/setting.h libs/sp/setting.cpp
     )
 
 # Define target properties for Android with Qt 6 as:

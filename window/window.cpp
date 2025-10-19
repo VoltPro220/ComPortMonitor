@@ -42,8 +42,36 @@ void Window::on_btn_SendCommand_clicked()
 
 void Window::on_btn_Connect_clicked()
 {
+    COMPortSettings set;
+    set.setPortName(ui->comboBox_ComPort->currentText());
+    set.setBaudRate(ui->comboBox_BaudRate->currentText().toInt());
+    set.setStopBits(ui->comboBox_StopBit->currentText().toInt());
+    set.setDataBits(ui->comboBox_DataBit->currentText().toInt());
+    set.setParity(ui->comboBox_Parity->currentText());
+    set.setFlowControl(ui->comboBox_FlowControl->currentText());
+
+    serialPort->setSettings(set);
+    openClosePort(set.portName());
+
 }
 
+
+void Window::openClosePort(QString namePort)
+{
+    bool isOpening = (ui->btn_Connect->text() == "Открыть");
+    ui->btn_Connect->setText(isOpening ? "Закрыть" : "Открыть");
+
+    if (isOpening) {
+        if (serialPort->open()) {
+            ui->textEdit->insertPlainText("PORT " + namePort + " успешно открыт\n");
+        }
+    } else {
+        serialPort->close();
+        ui->textEdit->insertPlainText("PORT " + namePort + " успешно закрыт\n");
+    }
+    scrollDown();
+
+}
 
 void Window::on_btn_Clear_clicked()
 {
