@@ -14,12 +14,25 @@ Window::Window(QWidget *parent)
     ui->setupUi(this);
     popUp = new PopUp();
     serialPort = new SerialPort;
+
+    connect(serialPort, &SerialPort::signalForUpdateCP, this, &Window::getPorts);
+    serialPort->startTimerForUpdateCP(2000);
+
 }
 
 Window::~Window()
 {
     delete ui;
     delete serialPort;
+}
+
+void Window::scrollDown()
+{
+    if(ui->checkBox_AutoScroll->isChecked()){
+        QTextCursor cursor = ui->textEdit->textCursor();
+        cursor.movePosition(QTextCursor::End);
+        ui->textEdit->setTextCursor(cursor);
+    }
 }
 
 void Window::on_btn_SendCommand_clicked()
@@ -29,25 +42,6 @@ void Window::on_btn_SendCommand_clicked()
 
 void Window::on_btn_Connect_clicked()
 {
-    serialPort->findAllPorts();
-    auto ports = serialPort->getPortInfo();
-
-    if (ports.isEmpty()) {
-        popUp->setPopupText("Ничего не найдено");
-        popUp->show();
-        return;
-    }
-    for (const auto &port : ports)
-    {
-        ui->textEdit->insertPlainText("Port: " + port.portName + '\n');
-        ui->textEdit->insertPlainText("Description: " + port.description + '\n');
-        ui->textEdit->insertPlainText("Manufacturer: " + port.manufacturer + '\n');
-        ui->textEdit->insertPlainText("System Location: " + port.systemLocation + '\n');
-        ui->textEdit->insertPlainText("Vendor ID: " + (!port.vendorId.isEmpty() ? port.vendorId : "N/A") + '\n');
-        ui->textEdit->insertPlainText("Product ID: " + (!port.productId.isEmpty() ? port.productId : "N/A") + '\n');
-        ui->textEdit->insertPlainText("-----------------------------------\n");
-    }
-
 }
 
 
@@ -161,5 +155,41 @@ void Window::on_lineEdit_Command_returnPressed()
 void Window::on_menuBar_Settings_triggered()
 {
     // TODO: OPEN SETTINGS
+}
+
+void Window::getPorts(QList<PortInfo> ports)
+{
+
+    if (ports.isEmpty()) {
+        popUp->setPopupText("Ничего не найдено");
+        popUp->show();
+        return;
+    }
+    QString current = ui->comboBox_ComPort->itemData(ui->comboBox_ComPort->currentIndex()).toString();
+    ui->comboBox_ComPort->clear();
+    for (const auto &port : ports)
+    {
+        ui->textEdit->insertPlainText("Port: " + port.portName + '\n');
+        ui->textEdit->insertPlainText("Description: " + port.description + '\n');
+        ui->textEdit->insertPlainText("Manufacturer: " + port.manufacturer + '\n');
+        ui->textEdit->insertPlainText("System Location: " + port.systemLocation + '\n');
+        ui->textEdit->insertPlainText("Vendor ID: " + (!port.vendorId.isEmpty() ? port.vendorId : "N/A") + '\n');
+        ui->textEdit->insertPlainText("Product ID: " + (!port.productId.isEmpty() ? port.productId : "N/A") + '\n');
+        ui->textEdit->insertPlainText("-----------------------------------\n");
+        scrollDown();
+
+        ui->comboBox_ComPort->addItem(port.portName);
+
+    }
+    ui->comboBox_ComPort->setCurrentText(current);
+
+}
+
+
+
+
+void Window::on_checkBox_AutoScroll_checkStateChanged(const Qt::CheckState &arg1)
+{
+    scrollDown();
 }
 

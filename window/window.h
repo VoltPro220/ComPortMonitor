@@ -24,6 +24,10 @@ public:
     Window(QWidget *parent = nullptr);
     ~Window();
 
+private:
+
+    void scrollDown();
+
 private slots:
     void on_btn_SendCommand_clicked();
 
@@ -45,5 +49,8 @@ private slots:
 
     void on_menuBar_Settings_triggered();
 
+    void getPorts(QList<PortInfo>);
+
+    void on_checkBox_AutoScroll_checkStateChanged(const Qt::CheckState &arg1);
 };
 #endif // WINDOW_H
