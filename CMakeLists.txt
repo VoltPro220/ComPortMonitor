@@ -27,6 +27,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
         resources/cpm.qrc
+        resources/cpm.rc
         libs/popup/popup.h libs/popup/popup.cpp
         libs/sp/serialport.h libs/sp/serialport.cpp
     )
