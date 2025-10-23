@@ -43,14 +43,19 @@ class SerialPort : public QObject
     COMPortSettings settings;
 
 public:
-    SerialPort();
+
+    explicit SerialPort(QObject *parent = nullptr);
     ~SerialPort();
 
     void findAllPorts();
     void setSettings(COMPortSettings& settings);
 
     void startTimerForUpdateCP(quint16);
-    void stopTimerForIpdateCP();
+    void stopTimerForUpdateCP();
+
+    bool sendString(const QString &text, bool addNewLine = true);
+    void sendQStringAsync(const QString &text);
+    bool sendQStringAsHex(const QString &text);
 
     void extracted();
     bool open();

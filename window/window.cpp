@@ -12,8 +12,8 @@ Window::Window(QWidget *parent)
     , ui(new Ui::Window)
 {
     ui->setupUi(this);
-    popUp = new PopUp();
-    serialPort = new SerialPort;
+    popUp = new PopUp(this);
+    serialPort = new SerialPort(this);
 
     connect(serialPort, &SerialPort::signalForUpdateCP, this, &Window::getPorts);
     serialPort->startTimerForUpdateCP(2000);
@@ -23,7 +23,7 @@ Window::Window(QWidget *parent)
 Window::~Window()
 {
     delete ui;
-    delete serialPort;
+    delete popUp;
 }
 
 void Window::scrollDown()
@@ -37,10 +37,26 @@ void Window::scrollDown()
 
 void Window::on_btn_SendCommand_clicked()
 {
-    ui->textEdit->insertPlainText(ui->lineEdit_Command->text() + '\n');
+    if(!ui->lineEdit_Command->text().trimmed().isEmpty()) return;
+
+    if(serialPort->sendString(ui->lineEdit_Command->text()))
+    {
+        ui->textEdit->insertPlainText(ui->lineEdit_Command->text() + '\n');
+        ui->lineEdit_Command->clear();
+    }
+    else
+    {
+        popUp->setPopupText("Произошла ошибка!\nПопробуйте снова");
+        popUp->show();
+    }
 }
 
 void Window::on_btn_Connect_clicked()
+{
+    connectPort();
+}
+
+void Window::connectPort()
 {
     COMPortSettings set;
     set.setPortName(ui->comboBox_ComPort->currentText());
@@ -51,23 +67,19 @@ void Window::on_btn_Connect_clicked()
     set.setFlowControl(ui->comboBox_FlowControl->currentText());
 
     serialPort->setSettings(set);
-    openClosePort(set.portName());
 
-}
-
-
-void Window::openClosePort(QString namePort)
-{
     bool isOpening = (ui->btn_Connect->text() == "Открыть");
+
     ui->btn_Connect->setText(isOpening ? "Закрыть" : "Открыть");
+    ui->menuBar_connect->setText(isOpening ? "Закрыть" : "Открыть");
 
     if (isOpening) {
         if (serialPort->open()) {
-            ui->textEdit->insertPlainText("PORT " + namePort + " успешно открыт\n");
+            ui->textEdit->insertPlainText("PORT " + set.portName() + " успешно открыт\n");
         }
     } else {
         serialPort->close();
-        ui->textEdit->insertPlainText("PORT " + namePort + " успешно закрыт\n");
+        ui->textEdit->insertPlainText("PORT " + set.portName() + " успешно закрыт\n");
     }
     scrollDown();
 
@@ -91,16 +103,14 @@ void Window::on_menuBar_Save_triggered()
 
 void Window::openFileDialogToSave()
 {
-    // Получаем текст из QTextEdit
     QString text = ui->textEdit->toPlainText();
 
 
-    // Открываем диалог выбора файла для сохранения
     QString fileName = QFileDialog::getSaveFileName(
-        this,                       // родительское окно
-        "Сохранить файл",           // заголовок диалога
-        "",                         // начальная директория
-        "Текстовые файлы (*.txt);;Все файлы (*)" // фильтры файлов
+        this,
+        "Сохранить файл",
+        "",
+        "Текстовые файлы (*.txt);;Все файлы (*)"
         );
 
     // Если пользователь отменил диалог
@@ -118,17 +128,14 @@ void Window::openFileDialogToSave()
         return;
     }
 
-    // Создаем текстовый поток для записи
     QTextStream out(&file);
 
-    // Записываем текст в файл
     out << text;
 
-    // Закрываем файл
     file.close();
 
-    // Сообщаем об успешном сохранении
-    QMessageBox::information(this, "Успех", "Файл успешно сохранен!");
+    popUp->setPopupText("Успешно!");
+    popUp->show();
 }
 
 void Window::on_menuBar_SaveAs_triggered()
@@ -183,13 +190,15 @@ void Window::on_lineEdit_Command_returnPressed()
 void Window::on_menuBar_Settings_triggered()
 {
     // TODO: OPEN SETTINGS
+    popUp->setPopupText("Извините!\nНастройки ещё не готовы");
+    popUp->show();
 }
 
 void Window::getPorts(QList<PortInfo> ports)
 {
 
     if (ports.isEmpty()) {
-        popUp->setPopupText("Ничего не найдено");
+        popUp->setPopupText("Порты не найдены");
         popUp->show();
         return;
     }
@@ -207,7 +216,6 @@ void Window::getPorts(QList<PortInfo> ports)
         scrollDown();
 
         ui->comboBox_ComPort->addItem(port.portName);
-
     }
     ui->comboBox_ComPort->setCurrentText(current);
 
@@ -219,5 +227,87 @@ void Window::getPorts(QList<PortInfo> ports)
 void Window::on_checkBox_AutoScroll_checkStateChanged(const Qt::CheckState &arg1)
 {
     scrollDown();
+}
+
+
+void Window::on_menuBar_Find_triggered()
+{
+    QTextEdit* textEdit = ui->textEdit;
+    QTextCursor cursor(textEdit->document());
+
+    QList<QTextEdit::ExtraSelection> selections;
+
+    while (!cursor.isNull() && !cursor.atEnd()) {
+        cursor = textEdit->document()->find(ui->lineEdit_Command->text(), cursor);
+
+        if (!cursor.isNull()) {
+            QTextEdit::ExtraSelection selection;
+            selection.cursor = cursor;
+            selection.format.setBackground(Qt::yellow); // Подсветка желтым цветом
+
+            selections.append(selection);
+        }
+    }
+
+    textEdit->setExtraSelections(selections);
+
+    if (!selections.isEmpty()) {
+        // Создаем соединение для сброса подсветки при клике
+        auto resetHighlight = [textEdit]() {
+            textEdit->setExtraSelections(QList<QTextEdit::ExtraSelection>());
+
+            // Устанавливаем курсор в конец
+            QTextCursor cursor = textEdit->textCursor();
+            cursor.movePosition(QTextCursor::End);
+            textEdit->setTextCursor(cursor);
+
+            // Отключаем обработчик после использования
+            textEdit->disconnect(); // Отключаем все соединения, связанные с textEdit
+        };
+
+        // Подключаем обработчик клика
+        connect(textEdit, &QTextEdit::cursorPositionChanged, this, resetHighlight);
+
+        popUp->setPopupText("Найдено: " + QString::number(selections.size()));
+        popUp->show();
+    }
+    else {
+        popUp->setPopupText("Не найдено");
+        popUp->show();
+    }
+}
+
+
+void Window::on_menuBar_Docs_triggered()
+{
+    popUp->setPopupText("В разработке");
+    popUp->show();
+}
+
+
+void Window::on_menuBar_AboutPro_triggered()
+{
+    popUp->setPopupText("В разработке");
+    popUp->show();
+}
+
+
+void Window::on_menuBar_Undo_triggered()
+{
+    popUp->setPopupText("В разработке");
+    popUp->show();
+}
+
+
+void Window::on_menuBar_Redo_triggered()
+{
+    popUp->setPopupText("В разработке");
+    popUp->show();
+}
+
+
+void Window::on_menuBar_connect_triggered()
+{
+    connectPort();
 }
 

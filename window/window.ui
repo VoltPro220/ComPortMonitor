@@ -353,9 +353,6 @@
         <property name="icon">
          <iconset theme="QIcon::ThemeIcon::DocumentSend"/>
         </property>
-        <property name="shortcut">
-         <string>Ctrl+O</string>
-        </property>
        </widget>
       </item>
       <item>
@@ -436,9 +433,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <string>Инструменты</string>
     </property>
     <addaction name="menuBar_connect"/>
-    <addaction name="menuBar_UpdatePorts"/>
     <addaction name="separator"/>
-    <addaction name="menuBar_Connect"/>
+    <addaction name="menuBar_Ports"/>
     <addaction name="menuBar_BaudRate"/>
    </widget>
    <widget class="QMenu" name="menu_3">
@@ -511,10 +507,10 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <iconset theme="QIcon::ThemeIcon::InsertLink"/>
    </property>
    <property name="text">
-    <string>Подключиться</string>
+    <string>Открыть</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Q</string>
+    <string>Ctrl+O</string>
    </property>
   </action>
   <action name="menuBar_UpdatePorts">
@@ -522,7 +518,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <string>Обновить</string>
    </property>
   </action>
-  <action name="menuBar_Connect">
+  <action name="menuBar_Ports">
    <property name="text">
     <string>COM</string>
    </property>
@@ -585,6 +581,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
    <property name="shortcut">
     <string>Ctrl+Z</string>
    </property>
+   <property name="visible">
+    <bool>true</bool>
+   </property>
   </action>
   <action name="menuBar_Redo">
    <property name="icon">
@@ -595,6 +594,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
    </property>
    <property name="shortcut">
     <string>Ctrl+Y</string>
+   </property>
+   <property name="visible">
+    <bool>true</bool>
    </property>
   </action>
  </widget>

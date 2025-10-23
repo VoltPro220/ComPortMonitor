@@ -15,7 +15,6 @@ class Window : public QMainWindow
 {
     Q_OBJECT
 
-    void openFileDialogToSave();
     Ui::Window *ui;
     PopUp *popUp;
     SerialPort *serialPort;
@@ -26,8 +25,9 @@ public:
 
 private:
 
+    void connectPort();
+    void openFileDialogToSave();
     void scrollDown();
-    void openClosePort(QString);
 
 private slots:
     void on_btn_SendCommand_clicked();
@@ -53,5 +53,11 @@ private slots:
     void getPorts(QList<PortInfo>);
 
     void on_checkBox_AutoScroll_checkStateChanged(const Qt::CheckState &arg1);
+    void on_menuBar_Find_triggered();
+    void on_menuBar_Docs_triggered();
+    void on_menuBar_AboutPro_triggered();
+    void on_menuBar_Undo_triggered();
+    void on_menuBar_Redo_triggered();
+    void on_menuBar_connect_triggered();
 };
 #endif // WINDOW_H
